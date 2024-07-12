@@ -18,8 +18,8 @@ export const BaseRouter = {
     switch (action.type) {
       case 'SET_PARAMS': {
         const index = action.source
-          ? state.routes.findIndex((r) => r.key === action.source)
-          : state.index;
+          ? state?.routes?.findIndex((r) => r.key === action?.source)
+          : state?.index;
 
         if (index === -1) {
           return null;
@@ -27,21 +27,21 @@ export const BaseRouter = {
 
         return {
           ...state,
-          routes: state.routes.map((r, i) =>
+          routes: state?.routes?.map((r, i) =>
             i === index
-              ? { ...r, params: { ...r.params, ...action.payload.params } }
+              ? { ...r, params: { ...r.params, ...action?.payload?.params } }
               : r
           ),
         };
       }
 
       case 'RESET': {
-        const nextState = action.payload as State | PartialState<State>;
+        const nextState = action?.payload as State | PartialState<State>;
 
         if (
-          nextState.routes.length === 0 ||
-          nextState.routes.some(
-            (route: { name: string }) => !state.routeNames.includes(route.name)
+          nextState?.routes?.length === 0 ||
+          nextState?.routes?.some(
+            (route: { name: string }) => !state?.routeNames?.includes(route.name)
           )
         ) {
           return null;
@@ -49,8 +49,8 @@ export const BaseRouter = {
 
         if (nextState.stale === false) {
           if (
-            state.routeNames.length !== nextState.routeNames.length ||
-            nextState.routeNames.some(
+            state?.routeNames?.length !== nextState?.routeNames?.length ||
+            nextState?.routeNames?.some(
               (name) => !state.routeNames.includes(name)
             )
           ) {
@@ -59,7 +59,7 @@ export const BaseRouter = {
 
           return {
             ...nextState,
-            routes: nextState.routes.map((route) =>
+            routes: nextState?.routes?.map((route) =>
               route.key ? route : { ...route, key: `${route.name}-${nanoid()}` }
             ),
           };
